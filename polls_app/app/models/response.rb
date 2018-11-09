@@ -11,6 +11,8 @@
 
 class Response < ApplicationRecord
 
+
+
   belongs_to :answer_choice,
     primary_key: :id,
     foreign_key: :answer_id,
@@ -20,5 +22,19 @@ class Response < ApplicationRecord
     primary_key: :id,
     foreign_key: :respondent_id,
     class_name: :User
+
+  validate :not_duplicate_response
+
+  has_one :question,
+    through: :answer_choice,
+    source: :question
+
+  def not_duplicate_response
+
+  end
+
+  def sibling_responses
+    self.question.responses
+  end
 
 end
